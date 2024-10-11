@@ -1,0 +1,136 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model comment {
+  id         Int      @id @default(autoincrement())
+  title      String   @db.VarChar(250)
+  track_id   Int
+  created_at DateTime @default(now()) @db.Timestamp(6)
+  updated_at DateTime @default(now()) @db.Timestamp(6)
+  user_id    Int
+  tracks     tracks   @relation(fields: [track_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_track_comment")
+  users      users    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user_comment")
+
+  @@index([track_id], map: "idx_comment_track_id")
+  @@index([user_id], map: "idx_comment_user_id")
+}
+
+model follow {
+  id                               Int   @id @default(autoincrement())
+  follower_id                      Int
+  following_id                     Int
+  users_follow_follower_idTousers  users @relation("follow_follower_idTousers", fields: [follower_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_follower")
+  users_follow_following_idTousers users @relation("follow_following_idTousers", fields: [following_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_following")
+
+  @@index([follower_id], map: "idx_follower_id")
+  @@index([following_id], map: "idx_following_id")
+  @@unique([follower_id, following_id])
+}
+
+model info {
+  id            Int    @id @default(autoincrement())
+  firstname     String @db.VarChar(250)
+  lastname      String @db.VarChar(250)
+  city          String @db.VarChar(250)
+  country       String @db.VarChar(250)
+  socialnetwork String @db.VarChar(250)
+  bio           String @db.VarChar(250)
+  user_id       Int
+  users         users  @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user_info")
+
+  @@index([user_id], map: "idx_user_info_user_id")
+}
+
+model like_track {
+  id         Int      @id @default(autoincrement())
+  track_id   Int
+  created_at DateTime @default(now()) @db.Timestamp(6)
+  updated_at DateTime @default(now()) @db.Timestamp(6)
+  user_id    Int
+  tracks     tracks   @relation(fields: [track_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_track_like_track")
+  users      users    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user_like_track")
+
+  @@index([track_id], map: "idx_like_track_track_id")
+  @@index([user_id], map: "idx_like_track_user_id")
+  @@unique([track_id, user_id])
+}
+
+model playlist_track {
+  id          Int        @id @default(autoincrement())
+  description String?    @db.VarChar(255)
+  date        DateTime?  @db.Timestamp(6)
+  playlist_id Int?
+  track_id    Int?
+  created_at  DateTime   @default(now()) @db.Timestamp(6)
+  updated_at  DateTime   @default(now()) @db.Timestamp(6)
+  playlists   playlists? @relation(fields: [playlist_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_playlist")
+  tracks      tracks?    @relation(fields: [track_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_track_playlist")
+
+  @@index([playlist_id], map: "idx_playlist_track_playlist_id")
+  @@index([track_id], map: "idx_playlist_track_track_id")
+}
+
+model playlists {
+  id             Int              @id @default(autoincrement())
+  playlist_name  String           @db.VarChar(250)
+  image          String           @db.VarChar(250)
+  user_id        Int
+  playlist_track playlist_track[]
+  users          users            @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user_playlists")
+
+  @@index([user_id], map: "idx_playlists_user_id")
+}
+
+model genre {
+  id         Int      @id @default(autoincrement()) 
+  title      String   
+  createdAt  DateTime @default(now()) 
+  updatedAt  DateTime @updatedAt 
+  tracks     tracks[]
+   @@index([id], map: "idx_genre_id")
+}
+
+
+model tracks {
+  id             Int              @id @default(autoincrement())
+  track_name     String           @db.VarChar(250)
+  sound          String           @db.VarChar(250)
+  image          String?          @db.VarChar(250)
+  description    String?          @db.VarChar(250)
+  slug           String?          @db.VarChar(250)
+  created_at     DateTime         @default(now()) @db.Timestamp(6)
+  updated_at     DateTime         @default(now()) @db.Timestamp(6)
+  user_id        Int
+  genre_id       Int?             
+  comment        comment[]
+  like_track     like_track[]
+  playlist_track playlist_track[]
+  users          users            @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user_tracks")
+  genre          genre?           @relation(fields: [genre_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_genre_tracks")
+
+  @@index([user_id], map: "idx_tracks_user_id")
+}
+
+
+model users {
+  id                                Int          @id @default(autoincrement())
+  username                          String       @db.VarChar(250)
+  image                             String?      @db.VarChar(255)
+  email                             String       @unique @db.VarChar(250)
+  password                          String?       @db.VarChar(250)
+  comment                           comment[]
+  follow_follow_follower_idTousers  follow[]     @relation("follow_follower_idTousers")
+  follow_follow_following_idTousers follow[]     @relation("follow_following_idTousers")
+  info                              info[]
+  like_track                        like_track[]
+  playlists                         playlists[]
+  tracks                            tracks[]
+
+  @@index([email], map: "idx_users_email")
+}
