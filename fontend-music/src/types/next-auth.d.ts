@@ -3,7 +3,7 @@ import { JWT } from "next-auth/jwt";
 
 // Interface user
 interface IUser {
-  id: number;
+  userId: number;
   username: string;
   image: string;
   email: string;

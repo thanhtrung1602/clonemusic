@@ -14,36 +14,43 @@ export class CommentsService {
         track_id: createCommentDto.track_id,
       },
     });
+    console.log('create: ', sendComment);
     return sendComment;
   }
 
-  async findAll(slug: string) {
-    const findAllCommentByTrack = await this.prisma.comment.findMany({
-      where: {
-        tracks: {
-          slug: slug,
+  async findAll(id: number) {
+    try {
+      console.log('id: ', id);
+      const findAllCommentByTrack = await this.prisma.comment.findMany({
+        where: {
+          track_id: Number(id),
         },
-      },
-
-      include: {
-        tracks: true,
-      },
-    });
-
-    return findAllCommentByTrack;
+        include: {
+          users: true,
+        },
+      });
+      console.log('findAll: ', findAllCommentByTrack);
+      return findAllCommentByTrack;
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 
   async remove(id: number) {
-    const del = await this.prisma.comment.delete({
-      where: {
-        id,
-      },
-    });
+    try {
+      const del = await this.prisma.comment.delete({
+        where: {
+          id,
+        },
+      });
 
-    if (del) {
-      return {
-        message: 'del successfully!',
-      };
+      if (del) {
+        return {
+          message: 'del successfully!',
+        };
+      }
+    } catch (error) {
+      throw new Error(error.message);
     }
   }
 }

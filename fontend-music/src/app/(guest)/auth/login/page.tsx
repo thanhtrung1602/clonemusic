@@ -17,7 +17,7 @@ import { GoogleIcon, SitemarkIcon } from "./CustomIcons";
 import { signIn, SignInResponse } from "next-auth/react";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
-import { redirect } from "next/navigation";
+import { useRouter } from 'next/navigation';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -61,9 +61,8 @@ export default function SignIn() {
   const [passwordError, setPasswordError] = useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
   const [result, setResult] = useState<SignInResponse | undefined>();
-
   const [isClient, setIsClient] = useState(false);
-
+  const router = useRouter();
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -89,7 +88,7 @@ export default function SignIn() {
     console.log("fuckkkkkk", result);
     if (result?.status === 200) {
       toast.success("Login is successfully!");
-      redirect("/");
+      router.push("/");
     }
   }, [result]);
 
@@ -110,6 +109,10 @@ export default function SignIn() {
     }
 
     return isValid;
+  };
+
+  const handleLoginWithGG = () => {
+    router.push(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`)
   };
 
   return (
@@ -208,7 +211,7 @@ export default function SignIn() {
               type="submit"
               fullWidth
               variant="outlined"
-              onClick={() => alert("Sign in with Google")}
+              onClick={handleLoginWithGG}
               startIcon={<GoogleIcon />}
             >
               Sign in with Google

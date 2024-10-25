@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CommentsModule } from './modules/comments/comments.module';
+import { CommentModule } from './modules/comment/comment.module';
 import { GenreModule } from './modules/genre/genre.module';
 import { UsersModule } from './modules/users/users.module';
 import { ConfigModule } from '@nestjs/config';
@@ -29,6 +30,7 @@ import { FollowsModule } from './modules/follows/follows.module';
     AuthModule,
     LikesModule,
     FollowsModule,
+    CommentModule,
   ],
   controllers: [AppController],
   providers: [

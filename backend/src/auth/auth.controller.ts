@@ -11,10 +11,14 @@ import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './passport/local-auth.guard';
 import { Public } from 'src/decorator/customize';
 import { GoogleAuthGuard } from './passport/google-auth.guard';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private configService: ConfigService,
+  ) {}
 
   @Post('login')
   @Public()
@@ -63,7 +67,23 @@ export class AuthController {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     if (access_token) {
-      return res.redirect(`http://localhost:5173/`);
+      return res.redirect(this.configService.get<string>('HOST_CLIENT'));
+    }
+  }
+
+  @Get('getAccessToken')
+  @Public()
+  getAccessToken(@Request() req, @Response() res) {
+    const { accessToken } = req.cookies;
+    const sessionToken = req.cookies['authjs.session-token'];
+
+    if (!accessToken) {
+      if (sessionToken) {
+        return res.status(200).json(sessionToken);
+      }
+      return res.status(404).json('not found token!');
+    } else {
+      return res.status(200).json(accessToken);
     }
   }
 }

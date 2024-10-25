@@ -19,17 +19,13 @@ import { UpdateTrackDto } from './dto/update-track.dto';
 import { Public } from 'src/decorator/customize';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { removeVietnameseTones } from 'src/helpers/utils';
-import { ElasticsearchService } from '@nestjs/elasticsearch';
 import { RedisService } from 'src/redis/redis.service';
-import { of } from 'rxjs';
-import { get } from 'http';
 
 @Controller('tracks')
 export class TracksController {
   constructor(
     private readonly tracksService: TracksService,
     private readonly cloudinaryService: CloudinaryService,
-    private client: ElasticsearchService,
     private readonly cache: RedisService,
   ) {}
 
@@ -67,14 +63,15 @@ export class TracksController {
       sound,
       slug,
     );
-    await this.client.index({
-      index: 'tracks',
-      id: track.id.toString(),
-      document: {
-        track_name: track.track_name,
-        image: track.image,
-      },
-    });
+    // await this.client.index({
+    //   index: 'tracks',
+    //   id: track.id.toString(),
+    //   body: {
+    //     track_name: track.track_name,
+    //     image: track.image,
+    //     slug: track.slug
+    //   },
+    // });
     return track;
   }
 
@@ -119,20 +116,20 @@ export class TracksController {
     return this.tracksService.findAllTrackByUsername(username);
   }
 
-  @Get('search')
-  @Public()
-  async search(@Query('q') q: string) {
-    const result = await this.client.search({
-      index: 'tracks',
-      query: {
-        match: {
-          track_name: q,
-        },
-      },
-    });
+  // @Get('search')
+  // @Public()
+  // async search(@Query('q') q: string) {
+  //   const result = await this.client.search({
+  //     index: 'tracks',
+  //     query: {
+  //       match: {
+  //         track_name: q,
+  //       },
+  //     },
+  //   });
 
-    return result.hits.hits;
-  }
+  //   return result.hits.hits;
+  // }
 
   @Get('findOneSlug/:slug')
   @Public()

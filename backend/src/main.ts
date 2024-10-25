@@ -9,7 +9,8 @@ async function bootstrap() {
   const port = configService.get<number>('PORT') || 3000;
   app.setGlobalPrefix('api/v1', { exclude: ['', '/auth/google/return_api'] });
   const optionCors = {
-    origin: configService.get<string>('HOST_CLIENT'),
+    origin: configService.get<string>('HOST_CLIENT') || 'http://localhost:3000',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   };
   app.enableCors(optionCors);

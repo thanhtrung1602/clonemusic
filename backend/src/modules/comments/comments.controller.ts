@@ -18,17 +18,17 @@ export class CommentsController {
 
   @Post('sendComment')
   @Public()
-  create(@Body() createCommentDto: CreateCommentDto) {
-    return this.commentsService.create(createCommentDto);
+  async create(@Body() createCommentDto: CreateCommentDto) {
+    return await this.commentsService.create(createCommentDto);
   }
 
-  @Get('findAllCommentByTrack/:slug')
+  @Get('findAllCommentByTrack/:id')
   @Public()
-  findAll(@Param('slug') slug: string) {
-    return this.commentsService.findAll(slug);
+  async findAll(@Param('id') id: number) {
+    return await this.commentsService.findAll(id);
   }
 
-  @Delete(':id')
+  @Delete('delComment/:id')
   remove(@Param('id') id: string) {
     return this.commentsService.remove(+id);
   }

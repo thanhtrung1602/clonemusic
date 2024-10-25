@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import instance from "./services/axios";
+import { IUser } from "./types/next-auth";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -11,7 +12,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       authorize: async (credentials) => {
         try {
-          console.log("check credentials >>>", credentials);
           const response = await instance.post("/auth/login", credentials);
           const user = response.data;
 
@@ -29,4 +29,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
     signIn: "/auth/login",
   },
+  callbacks: {
+    jwt({ token, user }) {
+      if (user) {
+        token.user = user as IUser;
+      }
+      return token;
+    },
+    session({ session, token }) {
+      (session.user as IUser) = token.user;
+      return session;
+    },
+  },
+  secret: process.env.NEXTAUTH_SECRET,
 });
