@@ -14,10 +14,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload) {
+    console.log('Payload từ token:', payload);
     return {
-      userId: payload.sub,
-      username: payload.username,
-      image: payload.image,
+      id: payload.id,
     };
   }
 }

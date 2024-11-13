@@ -11,6 +11,7 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Public } from 'src/decorator/customize';
 
 @Controller('users')
 export class UsersController {
@@ -32,14 +33,20 @@ export class UsersController {
     return this.usersService.findAll(offSet, limit);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  @Get('getUser/:username')
+  async findOne(@Param('username') username: string) {
+    return await this.usersService.findOne(username);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  @Get('getUserId/:id')
+  async findOneId(@Param('id') id: string) {
+    return await this.usersService.findOneId(+id);
+  }
+
+  @Patch('updateUser/:id')
+  @Public()
+  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return await this.usersService.update(+id, updateUserDto);
   }
 
   @Delete(':id')

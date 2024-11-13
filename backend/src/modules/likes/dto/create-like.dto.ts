@@ -1,4 +1,13 @@
+import { IsNotEmpty, IsNumber } from 'class-validator';
+
 export class CreateLikeDto {
-  track_id: number;
+  @IsNumber()
+  track_id?: number;
+
+  @IsNotEmpty()
+  @IsNumber()
   user_id: number;
+
+  @IsNumber()
+  comment_id?: number;
 }

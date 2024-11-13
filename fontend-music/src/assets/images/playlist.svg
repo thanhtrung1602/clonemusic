@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Gradient Background -->
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF4E50;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F9D423;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background with gradient -->
+  <rect width="200" height="200" fill="url(#grad1)"/>
+  
+  <!-- White overlay pattern -->
+  <g fill="white" fill-opacity="0.15">
+    <circle cx="160" cy="40" r="60"/>
+    <circle cx="40" cy="160" r="80"/>
+  </g>
+  
+  <!-- Music icon -->
+  <g transform="translate(70, 60)">
+    <!-- Stylized music note -->
+    <path d="M30 80 V30 A20 20 0 0 1 50 10 V60"
+          stroke="white"
+          strokeWidth="12"
+          strokeLinecap="round"
+          fill="none"/>
+          
+    <!-- Note heads -->
+    <circle cx="30" cy="80" r="15" fill="white"/>
+    <circle cx="50" cy="60" r="15" fill="white"/>
+  </g>
+</svg>

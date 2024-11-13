@@ -1,7 +1,6 @@
 "use client";
 // import Button from "@mui/material/Button";
 // import { signIn } from "@/auth";
-import Header from "@/components/header";
 import useAccessToken from "@/hooks/useAccessToken";
 import useGet from "@/hooks/useGet";
 export default function Home() {
@@ -10,7 +9,6 @@ export default function Home() {
   console.log("?????????????", accessToken);
   return (
     <div>
-      <Header />
       <div>
         <h2>{accessToken}</h2>
       </div>

@@ -18,33 +18,51 @@ export class LikesController {
   constructor(private readonly likesService: LikesService) {}
 
   @Post('sendLike')
-  create(@Body() createLikeDto: CreateLikeDto) {
-    return this.likesService.create(createLikeDto);
-  }
-
-  @Get('getStatusLike/:slug')
-  findAll(@Param('slug') slug: string) {
-    return this.likesService.findAll(slug);
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.likesService.findOne(+id);
-  }
-
-  @Get('getCountLike/:slug')
   @Public()
-  findCount(@Param('slug') slug: string) {
-    return this.likesService.findCount(slug);
+  async create(@Body() createLikeDto: CreateLikeDto) {
+    console.log('body: ', createLikeDto);
+    return await this.likesService.create(createLikeDto);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateLikeDto: UpdateLikeDto) {
-    return this.likesService.update(+id, updateLikeDto);
+  @Post('sendLikeComment')
+  @Public()
+  async createLikeComment(@Body() createLikeDto: CreateLikeDto) {
+    console.log('body: ', createLikeDto);
+    return await this.likesService.createLikeComment(createLikeDto);
   }
 
-  @Delete('unLikeTrack')
-  remove(@Body() del: RemoveLikeDto) {
-    return this.likesService.remove(del);
+  @Get('getStatusLike/:id')
+  @Public()
+  findAll(@Param('id') id: number) {
+    return this.likesService.findAll(id);
+  }
+
+  @Get('getStatusLikeComment/:id')
+  @Public()
+  findAllLikeComment(@Param('id') id: number) {
+    return this.likesService.findAllLikeComment(id);
+  }
+
+  @Get('getCountLike/:id')
+  @Public()
+  async findCount(@Param('id') id: number) {
+    return await this.likesService.findCount(id);
+  }
+
+  @Get('getCountLikeComment/:id')
+  @Public()
+  async findCountComment(@Param('id') id: number) {
+    return await this.likesService.findCountComment(id);
+  }
+
+
+  @Post('unLikeTrack')
+  async remove(@Body() del: RemoveLikeDto) {
+    return await this.likesService.remove(del);
+  }
+
+  @Post('unLikeTrackComment')
+  async removeLikeComment(@Body() del: RemoveLikeDto) {
+    return await this.likesService.removeLikeComment(del);
   }
 }

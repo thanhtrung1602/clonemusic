@@ -12,6 +12,7 @@ import { LocalAuthGuard } from './passport/local-auth.guard';
 import { Public } from 'src/decorator/customize';
 import { GoogleAuthGuard } from './passport/google-auth.guard';
 import { ConfigService } from '@nestjs/config';
+import { JwtAuthGuard } from './passport/jwt-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -45,8 +46,10 @@ export class AuthController {
     return this.authService.handleRegister(req.body);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@Request() req) {
+    console.log('User from token:', req.user);
     return req.user;
   }
 
@@ -75,7 +78,7 @@ export class AuthController {
   @Public()
   getAccessToken(@Request() req, @Response() res) {
     const { accessToken } = req.cookies;
-    const sessionToken = req.cookies['authjs.session-token'];
+    const sessionToken = req.cookies['accessToken'];
 
     if (!accessToken) {
       if (sessionToken) {

@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { CreateFollowDto } from './dto/create-follow.dto';
-import { UpdateFollowDto } from './dto/update-follow.dto';
 import { PrismaService } from 'src/prisma.service';
 import { RemoveFollowDto } from './dto/remove-follow.dto';
 
 @Injectable()
 export class FollowsService {
   constructor(private readonly prisma: PrismaService) {}
+
   async create(createFollowDto: CreateFollowDto) {
     const findUnique = await this.prisma.follow.findUnique({
       where: {
@@ -36,11 +36,15 @@ export class FollowsService {
   async findAll(id: number) {
     const statusFollow = await this.prisma.follow.findMany({
       where: {
-        following_id: id,
+        follower_id: Number(id),
       },
     });
     return statusFollow;
   }
+
+  async findCountFollowed(id: number) {}
+
+  async findCountFollowing(id: number) {}
 
   async remove(remove: RemoveFollowDto) {
     const del = await this.prisma.follow.delete({

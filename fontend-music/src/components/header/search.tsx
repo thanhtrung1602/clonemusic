@@ -16,12 +16,12 @@ type TrackSearch = {
 function Search() {
   const [key, setKey] = useState("");
   const [hiddenSearch, setHiddenSearch] = useState(false);
-  const inputSearchDebounce = useDebounce(key, 500);
-  const { data: tracks, isLoading } = useSearch<TrackSearch[]>(
-    "/tracks/search",
-    inputSearchDebounce
-  );
-  console.log(tracks);
+  // const inputSearchDebounce = useDebounce(key, 500);
+  // const { data: tracks, isLoading } = useSearch<TrackSearch[]>(
+  //   "/tracks/search",
+  //   inputSearchDebounce
+  // );
+  // console.log(tracks);
   return (
     <>
       <HeadlessTippy
@@ -29,7 +29,7 @@ function Search() {
         visible={hiddenSearch}
         render={(attrs) => (
           <div className="mt-[-1px] w-[385px]" tabIndex={-1} {...attrs}>
-            <PopperWrapper>
+            {/* <PopperWrapper>
               {hiddenSearch && (
                 <ul className="bg bg-slate-950 text-[#ccc]">
                   <li className="bg-[#333] p-[6px]">Search for `{key}`</li>
@@ -54,7 +54,7 @@ function Search() {
                   ))}
                 </ul>
               )}
-            </PopperWrapper>
+            </PopperWrapper> */}
           </div>
         )}
         onClickOutside={() => setHiddenSearch(false)}

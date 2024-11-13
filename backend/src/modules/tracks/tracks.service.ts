@@ -48,6 +48,9 @@ export class TracksService {
 
   async findAllTrackByUsername(username: string) {
     const findAllTrack = await this.prisma.tracks.findMany({
+      orderBy: {
+        created_at: 'desc',
+      },
       where: {
         users: {
           username: username,

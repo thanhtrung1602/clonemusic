@@ -13,7 +13,6 @@ export default function useAccessToken() {
     queryFn: async () => {
       const { data } = await instance.get("/auth/getAccessToken");
       dispatch(setCookie(data));
-      console.log("jajajajajajaj", data);
       return data;
     },
   });

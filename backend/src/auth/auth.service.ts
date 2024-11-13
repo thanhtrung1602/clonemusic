@@ -38,10 +38,9 @@ export class AuthService {
   }
 
   async login(user: any) {
+    console.log('User before login:', user);
     const payload = {
-      sub: user.id,
-      username: user.username,
-      image: user.image,
+      id: user.id,
     };
     return {
       access_token: this.jwtService.sign(payload),
@@ -52,10 +51,14 @@ export class AuthService {
     email,
     name,
     photos,
+    firstName,
+    lastName,
   }: {
     email: string;
     name: string;
     photos: string;
+    firstName: string;
+    lastName: string;
   }): Promise<any> {
     const hashName = removeVietnameseTones(name)
       .toLowerCase()
@@ -69,10 +72,12 @@ export class AuthService {
         username: username,
         image: photos,
         password: username,
+        firstName: firstName,
+        lastName: lastName,
       });
     }
 
-    return this.login(user);
+    return await this.login(user);
   }
 
   async handleRegister(user: CreateUserDto) {

@@ -1,13 +1,14 @@
+import { first } from 'rxjs';
 import { hashPassword } from 'src/helpers/utils';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma.service';
-import { randomBytes } from 'crypto';
 
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
+
   async create(createUserDto: CreateUserDto) {
     const { email, username, password } = createUserDto;
     const user = await this.prisma.users.findUnique({
@@ -57,6 +58,8 @@ export class UsersService {
     username: string;
     image: string;
     password: string;
+    firstName?: string;
+    lastName?: string;
   }) {
     return await this.prisma.users.create({
       data: {
@@ -64,6 +67,8 @@ export class UsersService {
         email: userData.email,
         image: userData.image,
         password: userData.password,
+        firstName: userData.firstName,
+        lastName: userData.lastName,
       },
     });
   }
@@ -110,12 +115,42 @@ export class UsersService {
     };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(username: string) {
+    try {
+      const user = await this.prisma.users.findFirst({
+        where: {
+          username: username,
+        },
+      });
+      return user;
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async findOneId(id: number) {
+    try {
+      const user = await this.prisma.users.findUnique({
+        where: {
+          id,
+        },
+      });
+      return user;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    const user = await this.prisma.users.update({
+      where: {
+        id,
+      },
+      data: {
+        ...updateUserDto,
+      },
+    });
+    return user;
   }
 
   remove(id: number) {

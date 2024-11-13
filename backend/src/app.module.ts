@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CommentsModule } from './modules/comments/comments.module';
-import { CommentModule } from './modules/comment/comment.module';
 import { GenreModule } from './modules/genre/genre.module';
 import { UsersModule } from './modules/users/users.module';
 import { ConfigModule } from '@nestjs/config';
@@ -13,6 +12,8 @@ import { TracksModule } from './modules/tracks/tracks.module';
 import { LikesModule } from './modules/likes/likes.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { FollowsModule } from './modules/follows/follows.module';
+import { PlaylistsModule } from './modules/playlists/playlists.module';
+import { PlaylistTracksModule } from './modules/playlist_tracks/playlist_tracks.module';
 
 @Module({
   imports: [
@@ -30,7 +31,8 @@ import { FollowsModule } from './modules/follows/follows.module';
     AuthModule,
     LikesModule,
     FollowsModule,
-    CommentModule,
+    PlaylistsModule,
+    PlaylistTracksModule,
   ],
   controllers: [AppController],
   providers: [

@@ -24,4 +24,24 @@ export class CreateUserDto {
 
   @IsNotEmpty({ message: 'password cannot be empty' })
   password: string;
+
+  @IsOptional()
+  @IsString()
+  firstName: string;
+
+  @IsOptional()
+  @IsString()
+  lastName: string;
+
+  @IsOptional()
+  @IsString()
+  city: string;
+
+  @IsOptional()
+  @IsString()
+  country: string;
+
+  @IsOptional()
+  @IsString()
+  bio: string;
 }

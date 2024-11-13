@@ -1,4 +1,4 @@
-import { CloudinaryService } from './../../cloudinary/cloudinary.service';
+import { CloudinaryService } from '../../cloudinary/cloudinary.service';
 import {
   Controller,
   Get,
@@ -8,9 +8,7 @@ import {
   Param,
   Delete,
   UseInterceptors,
-  UploadedFile,
   UploadedFiles,
-  BadRequestException,
   Query,
 } from '@nestjs/common';
 import { TracksService } from './tracks.service';
@@ -20,6 +18,7 @@ import { Public } from 'src/decorator/customize';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { removeVietnameseTones } from 'src/helpers/utils';
 import { RedisService } from 'src/redis/redis.service';
+import { Track } from './entities/track.entity';
 
 @Controller('tracks')
 export class TracksController {
@@ -55,9 +54,13 @@ export class TracksController {
     const slug = removeVietnameseTones(createTrackDto.track_name)
       .toLowerCase()
       .replace(/\s+/g, '-');
-    const image = imageUploadResult.url;
-    const sound = soundUploadResult.url;
-    const track = await this.tracksService.create(
+
+    const image: string = imageUploadResult.url;
+    const sound: string = soundUploadResult.url;
+
+    console.log({ image, sound });
+
+    const track: Track = await this.tracksService.create(
       createTrackDto,
       image,
       sound,
@@ -87,7 +90,7 @@ export class TracksController {
 
     const offSet = (skip - 1) * take;
 
-    const findGenre = await this.tracksService.findTrackByGenre(
+    const findGenre: Track[] = await this.tracksService.findTrackByGenre(
       id,
       offSet,
       take,

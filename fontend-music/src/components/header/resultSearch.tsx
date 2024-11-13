@@ -18,6 +18,7 @@ function ResultSearch(props: IResultSearch) {
               "https://cellphones.com.vn/sforum/wp-content/uploads/2023/10/avatar-trang-4.jpg"
             }
             alt={props.name}
+            priority
           />
           <p>{props.name}</p>
         </div>
