@@ -58,7 +58,7 @@ export class TracksController {
     const image: string = imageUploadResult.url;
     const sound: string = soundUploadResult.url;
 
-    console.log({ image, sound });
+    { image, sound });
 
     const track: Track = await this.tracksService.create(
       createTrackDto,
@@ -157,7 +157,7 @@ export class TracksController {
 
   @Delete('delTrack/:id')
   @Public()
-  remove(@Param('id') id: string) {
-    return this.tracksService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.tracksService.remove(+id);
   }
 }

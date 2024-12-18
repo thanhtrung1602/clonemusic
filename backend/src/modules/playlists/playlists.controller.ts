@@ -31,6 +31,11 @@ export class PlaylistsController {
     return this.playlistsService.findAll(+id);
   }
 
+  @Get('findAllPlaylistBySlug/:slug')
+  findOnePlaylistsSlug(@Param('slug') slug: string) {
+    return this.playlistsService.findOnePlaylistsSlug(slug);
+  }
+
   @Patch('updatePlaylist/:id')
   update(
     @Param('id') id: string,

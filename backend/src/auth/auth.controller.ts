@@ -1,3 +1,4 @@
+import { User } from './../modules/users/entities/user.entity';
 import {
   Controller,
   Get,
@@ -13,12 +14,14 @@ import { Public } from 'src/decorator/customize';
 import { GoogleAuthGuard } from './passport/google-auth.guard';
 import { ConfigService } from '@nestjs/config';
 import { JwtAuthGuard } from './passport/jwt-auth.guard';
+import { UsersService } from 'src/modules/users/users.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private authService: AuthService,
     private configService: ConfigService,
+    private usersService: UsersService,
   ) {}
 
   @Post('login')
@@ -42,15 +45,18 @@ export class AuthController {
   @Post('register')
   @Public()
   register(@Request() req) {
-    console.log(req.body);
+    req.body);
     return this.authService.handleRegister(req.body);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('profile')
-  getProfile(@Request() req) {
-    console.log('User from token:', req.user);
-    return req.user;
+  async getProfile(@Request() req) {
+    const { id } = req.user;
+    'User from token:', id);
+    const user = await this.usersService.findOneId(id);
+    'aaaa: ', user);
+    return user;
   }
 
   @Get('google')

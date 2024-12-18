@@ -16,13 +16,13 @@ export class CommentsService {
                 track_id: createCommentDto.track_id,
             },
         });
-        console.log('create: ', sendComment);
+        'create: ', sendComment);
         return sendComment;
     }
 
     async findAll(id: number) {
         try {
-            console.log('id: ', id);
+            'id: ', id);
             const findAllCommentByTrack: Comment[] = await this.prisma.comment.findMany({
                 orderBy: {
                     created_at: "desc"
@@ -34,7 +34,7 @@ export class CommentsService {
                     users: true,
                 },
             });
-            console.log('findAll: ', findAllCommentByTrack);
+            'findAll: ', findAllCommentByTrack);
             return findAllCommentByTrack;
         } catch (error) {
             throw new Error(error.message);

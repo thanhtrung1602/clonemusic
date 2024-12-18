@@ -29,10 +29,10 @@ export class TracksService {
   async findTrackByGenre(id: number, skip: number, take: number) {
     const findGenre = await this.prisma.tracks.findMany({
       where: {
-        genre_id: id,
+        genre_id: Number(id),
       },
       skip: skip,
-      take: take,
+      take: Number(take),
     });
 
     return findGenre;

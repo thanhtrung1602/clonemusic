@@ -20,14 +20,14 @@ export class LikesController {
   @Post('sendLike')
   @Public()
   async create(@Body() createLikeDto: CreateLikeDto) {
-    console.log('body: ', createLikeDto);
+    'body: ', createLikeDto);
     return await this.likesService.create(createLikeDto);
   }
 
   @Post('sendLikeComment')
   @Public()
   async createLikeComment(@Body() createLikeDto: CreateLikeDto) {
-    console.log('body: ', createLikeDto);
+    'body: ', createLikeDto);
     return await this.likesService.createLikeComment(createLikeDto);
   }
 

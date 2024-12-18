@@ -16,16 +16,16 @@ import { Public } from 'src/decorator/customize';
 export class GenreController {
   constructor(private readonly genreService: GenreService) {}
 
-  @Post()
+  @Post('createGenre')
   @Public()
   create(@Body() createGenreDto: CreateGenreDto) {
     return this.genreService.create(createGenreDto);
   }
 
-  @Get()
+  @Get('findAll')
   @Public()
-  findAll() {
-    return this.genreService.findAll();
+  async findAll() {
+    return await this.genreService.findAll();
   }
 
   @Get(':id')

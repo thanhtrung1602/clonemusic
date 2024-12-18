@@ -8,6 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import {
   comparePassword,
   generateRandomNumericId,
+  hashPassword,
   removeVietnameseTones,
 } from 'src/helpers/utils';
 import { CreateUserDto } from 'src/modules/users/dto/create-user.dto';
@@ -23,9 +24,9 @@ export class AuthService {
 
   async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.usersService.findByEmailOrUsername(username);
-    console.log('User fetched:', user);
+    'User fetched:', user);
     if (!user) {
-      console.log('User not found');
+      'User not found');
       throw new UnauthorizedException();
     }
 
@@ -38,7 +39,7 @@ export class AuthService {
   }
 
   async login(user: any) {
-    console.log('User before login:', user);
+    'User before login:', user);
     const payload = {
       id: user.id,
     };
@@ -65,13 +66,14 @@ export class AuthService {
       .replace(/\s+/g, '-');
     const randomId = generateRandomNumericId();
     const username = `${hashName}-${randomId}`;
+    const hashPass = await hashPassword(username);
     let user = await this.usersService.findByEmail(email);
     if (!user) {
       user = await this.usersService.createOAuthUser({
         email: email,
         username: username,
         image: photos,
-        password: username,
+        password: hashPass,
         firstName: firstName,
         lastName: lastName,
       });

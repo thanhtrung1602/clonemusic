@@ -51,6 +51,19 @@ export class PlaylistsService {
     return findAll;
   }
 
+  async findOnePlaylistsSlug(slug: string) {
+    const findAll = await this.prisma.playlists.findFirst({
+      where: {
+        slug: slug,
+      },
+
+      include: {
+        users: true,
+      },
+    });
+    return findAll;
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} playlist`;
   }
