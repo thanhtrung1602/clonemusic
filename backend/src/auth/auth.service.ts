@@ -24,9 +24,7 @@ export class AuthService {
 
   async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.usersService.findByEmailOrUsername(username);
-    'User fetched:', user);
     if (!user) {
-      'User not found');
       throw new UnauthorizedException();
     }
 
@@ -39,7 +37,6 @@ export class AuthService {
   }
 
   async login(user: any) {
-    'User before login:', user);
     const payload = {
       id: user.id,
     };

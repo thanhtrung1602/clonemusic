@@ -30,8 +30,6 @@ function GetPlaylist({ playlist }: { playlist: IPlaylist }) {
     `/playlist-tracks/findAll/${playlist.id}`
   );
 
-  "trackId", trackId);
-
   const handleAddPlaylist = (playlist_id: number) => {
     const data = {
       playlist_id: playlist_id,

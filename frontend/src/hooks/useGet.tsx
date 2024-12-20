@@ -11,10 +11,8 @@ export default function useGet<T>(url: string) {
     queryKey: [url],
     queryFn: async () => {
       if (!cookie && !isSuccess) {
-        "huuhhu", cookie);
         throw new Error("Access token chưa sẵn sàng");
       }
-      "aaaaaa: ", cookie);
       const { data } = await instance.get<T>(url, {
         headers: {
           Authorization: `Bearer ${cookie}`,

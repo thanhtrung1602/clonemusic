@@ -2,6 +2,7 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import {
   setCurrentTime,
+  setCurrentTrack,
   setDuration,
   setPause,
   setPlaying,
@@ -9,6 +10,7 @@ import {
 import WaveSurfer from "wavesurfer.js";
 import { useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
+import { ITrack } from "@/types/track";
 
 interface AudioPlayerOptions {
   waveColor?: string;
@@ -20,6 +22,7 @@ interface AudioPlayerOptions {
   url: string | undefined;
   width: number;
   idTrack: number | undefined;
+  track: ITrack;
 }
 
 export function useAudioPlayer(options: AudioPlayerOptions) {
@@ -122,16 +125,23 @@ export function useAudioPlayer(options: AudioPlayerOptions) {
     options.width,
   ]);
 
+  useEffect(() => {
+    if ((options?.idTrack, options.url)) {
+      waveSurfer.current?.load(options?.url);
+    }
+  }, [options.idTrack, options.url]);
+
   // Handle play/pause for this specific track
   useEffect(() => {
     if (waveSurfer.current) {
-      if (isPlay && trackId === options.idTrack) {
+      if (isPlay && trackId === options.idTrack && options.track) {
+        dispatch(setCurrentTrack(options.track));
         waveSurfer.current.play();
       } else {
         waveSurfer.current.pause();
       }
     }
-  }, [isPlay, trackId, options.idTrack]);
+  }, [isPlay, trackId, options.idTrack, options.track, dispatch]);
 
   const handlePlayPause = () => {
     if (waveSurfer.current) {
@@ -185,12 +195,13 @@ export function useAudioPlayer(options: AudioPlayerOptions) {
 
   useEffect(() => {
     const seekToTime = () => {
-      "currentTrack:", currentTrack?.id);
-      "trackId:", trackId);
       if (
         waveSurfer.current &&
         currentTrack?.id === trackId &&
-        options.url === currentTrack?.sound
+        options.url === currentTrack?.sound &&
+        Number.isFinite(currentTime) &&
+        Number.isFinite(duration) &&
+        duration > 0
       ) {
         const waveSurferCurrentTime = waveSurfer.current?.getCurrentTime() ?? 0;
         const tolerance = 0.5; // 0.5 seconds tolerance

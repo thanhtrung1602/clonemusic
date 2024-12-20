@@ -50,19 +50,12 @@ export default function DetailPage() {
     url: track?.sound,
     width: 750,
     idTrack: track?.id,
+    track: track,
   });
 
   useEffect(() => {
     muteVolume();
   }, [muteVolume]);
-
-  // Add error handling for the track
-  useEffect(() => {
-    if (track?.sound) {
-      // You might want to add some UI feedback here
-      "Loading track:", track.sound);
-    }
-  }, [track]);
 
   useEffect(() => {
     const img = imgRef.current;

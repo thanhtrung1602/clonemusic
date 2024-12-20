@@ -12,7 +12,6 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     @Inject(AuthService) private readonly authService: AuthService,
   ) {
     const callbackURL = configService.get<string>('GOOGLE_CALLBACK_URL');
-    'Google Callback URL:', callbackURL);
     super({
       clientID: configService.get<string>('GOOGLE_CLIENT_ID'),
       clientSecret: configService.get<string>('GOOGLE_CLIENT_SECRET'),
@@ -28,7 +27,6 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     done: VerifyCallback,
   ): Promise<any> {
     try {
-      'profile: ', profile);
       const { displayName, photos, emails } = profile;
       const getLast = displayName.split(' ');
       const lastName = getLast[getLast.length - 1];

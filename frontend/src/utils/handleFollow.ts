@@ -70,8 +70,6 @@ export const HandleFollow = (followed: number | undefined) => {
     );
   };
 
-  console.log("follow: ", follows);
-
   const statusFollow = follows?.some(
     (follow) =>
       follow.follower_id === followed && follow.following_id === user?.id

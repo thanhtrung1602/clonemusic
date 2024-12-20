@@ -16,8 +16,6 @@ export default function ListPlaylists({ playlist }: { playlist: IPlaylist }) {
   );
   const [indexTrackList, setIndexTrackList] = useState<number>(0);
 
-  "ind: ", indexTrackList);
-
   const {
     waveContainerRef,
     currentTime,
@@ -41,7 +39,6 @@ export default function ListPlaylists({ playlist }: { playlist: IPlaylist }) {
   useEffect(() => {
     muteVolume();
   }, [muteVolume]);
-  playlistDetails);
 
   return (
     <section className="flex py-2.5">

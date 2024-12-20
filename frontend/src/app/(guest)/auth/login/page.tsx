@@ -17,7 +17,7 @@ import { GoogleIcon, SitemarkIcon } from "./CustomIcons";
 import { signIn, SignInResponse } from "next-auth/react";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -77,20 +77,14 @@ export default function SignIn() {
     });
 
     setResult(result);
-
-    {
-      emailOrUsername: data.get("email"),
-      password: data.get("password"),
-    });
   };
 
   useEffect(() => {
-    "fuckkkkkk", result);
     if (result?.status === 200) {
       toast.success("Login is successfully!");
       router.push("/");
     }
-  }, [result]);
+  }, [result, router]);
 
   if (!isClient) return null;
 
@@ -112,7 +106,7 @@ export default function SignIn() {
   };
 
   const handleLoginWithGG = () => {
-    router.push(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`)
+    router.push(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`);
   };
 
   return (

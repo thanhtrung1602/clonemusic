@@ -60,7 +60,6 @@ export default function ListTrack({ track }: { track: ITrack }) {
     mutate(`/tracks/delTrack/${id}`, {
       onSuccess: (res) => {
         if (res.status === 200) {
-          `Deleted track: ${track.track_name}`);
           toast.success("Delete successfully!");
           setShowPopup(false);
           queryClient.invalidateQueries({

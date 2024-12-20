@@ -95,8 +95,6 @@ export default function PlaylistsPage() {
     }
   }, [playlistDetails, indPlaylist]);
 
-  "true or false: ", isPlaying);
-
   return (
     <div className="flex flex-col">
       <div className="h-[380px] border">

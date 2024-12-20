@@ -45,7 +45,6 @@ export class AuthController {
   @Post('register')
   @Public()
   register(@Request() req) {
-    req.body);
     return this.authService.handleRegister(req.body);
   }
 
@@ -53,9 +52,7 @@ export class AuthController {
   @Get('profile')
   async getProfile(@Request() req) {
     const { id } = req.user;
-    'User from token:', id);
     const user = await this.usersService.findOneId(id);
-    'aaaa: ', user);
     return user;
   }
 

@@ -20,14 +20,12 @@ export class LikesController {
   @Post('sendLike')
   @Public()
   async create(@Body() createLikeDto: CreateLikeDto) {
-    'body: ', createLikeDto);
     return await this.likesService.create(createLikeDto);
   }
 
   @Post('sendLikeComment')
   @Public()
   async createLikeComment(@Body() createLikeDto: CreateLikeDto) {
-    'body: ', createLikeDto);
     return await this.likesService.createLikeComment(createLikeDto);
   }
 
@@ -54,7 +52,6 @@ export class LikesController {
   async findCountComment(@Param('id') id: number) {
     return await this.likesService.findCountComment(id);
   }
-
 
   @Post('unLikeTrack')
   async remove(@Body() del: RemoveLikeDto) {

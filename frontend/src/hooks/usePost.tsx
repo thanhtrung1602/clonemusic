@@ -12,7 +12,6 @@ export default function usePost() {
   return useMutation({
     mutationFn: ({ url, data }: UsePostOption) => {
       if (!cookie && !isSuccess) {
-        "huuhhu", cookie);
         throw new Error("Access token chưa sẵn sàng");
       }
 
@@ -41,7 +40,6 @@ export function useDelete() {
   return useMutation({
     mutationFn: (url: string) => {
       if (!cookie && !isSuccess) {
-        "huuhhu", cookie);
         throw new Error("Access token chưa sẵn sàng");
       }
       return instance

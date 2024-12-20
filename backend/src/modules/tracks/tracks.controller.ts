@@ -58,8 +58,6 @@ export class TracksController {
     const image: string = imageUploadResult.url;
     const sound: string = soundUploadResult.url;
 
-    { image, sound });
-
     const track: Track = await this.tracksService.create(
       createTrackDto,
       image,

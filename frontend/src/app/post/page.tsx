@@ -31,11 +31,7 @@ export default function PostPage() {
     }
   };
 
-  "Type image: ", genre_id);
-
   const handleSubmitPostTrack = () => {
-    "type sound: ", typeof sound);
-    "Type image: ", genre_id);
     if (image && sound && user?.id) {
       const formData = new FormData();
       formData.append("track_name", track_name);
